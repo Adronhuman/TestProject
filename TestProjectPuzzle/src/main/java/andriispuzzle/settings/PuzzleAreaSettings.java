@@ -14,8 +14,6 @@ public class PuzzleAreaSettings extends Observable{
 
     private boolean showPuzzlePreview = false;
 
-    private double usedSizeOfPuzzleArea = 0.5;
-
     public PuzzleAreaSettings() {
     }
 
@@ -35,16 +33,6 @@ public class PuzzleAreaSettings extends Observable{
 
     public void setShowPuzzlePreview(boolean showPuzzlePreview) {
         this.showPuzzlePreview = showPuzzlePreview;
-        setChanged();
-        notifyObservers();
-    }
-
-    public double getUsedSizeOfPuzzlearea() {
-        return usedSizeOfPuzzleArea;
-    }
-
-    public void setUsedSizeOfPuzzleArea(double number) {
-        usedSizeOfPuzzleArea = number;
         setChanged();
         notifyObservers();
     }
@@ -70,12 +58,6 @@ public class PuzzleAreaSettings extends Observable{
                 case "show-puzzle-preview":
                     showPuzzlePreview = Boolean.parseBoolean(node.getTextContent());
                     break;
-                case "used-size-of-puzzleare":
-                    try {
-                        usedSizeOfPuzzleArea = Double.parseDouble(node.getTextContent());
-                    } catch (NumberFormatException ex) {
-                    }
-                    break;
             }
         }
         setChanged();
@@ -94,10 +76,6 @@ public class PuzzleAreaSettings extends Observable{
 
         tmpElement = doc.createElement("show-puzzle-preview");
         tmpElement.setTextContent(String.valueOf(showPuzzlePreview));
-        settingsElement.appendChild(tmpElement);
-
-        tmpElement = doc.createElement("used-size-of-puzzleare");
-        tmpElement.setTextContent(String.valueOf(usedSizeOfPuzzleArea));
         settingsElement.appendChild(tmpElement);
     }
 

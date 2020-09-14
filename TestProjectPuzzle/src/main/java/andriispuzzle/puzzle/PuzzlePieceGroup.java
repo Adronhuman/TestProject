@@ -3,6 +3,8 @@ package andriispuzzle.puzzle;
 import andriispuzzle.PuzzleApp;
 import andriispuzzle.settings.SettingsActions;
 
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -102,6 +104,8 @@ public class PuzzlePieceGroup extends Observable {
             horizontalPositionOther += toAdd;
         }
 
+
+
         for (int rIndex = otherGroup.puzzlePiecesList.size() - 1; rIndex >= 0; rIndex--) {
             ArrayList<PuzzlePiece> row = otherGroup.puzzlePiecesList.get(rIndex);
             for (int cIndex = 0; cIndex < row.size(); cIndex++) {
@@ -186,38 +190,14 @@ public class PuzzlePieceGroup extends Observable {
     public List<PuzzlePieceConnection> getPuzzlePieceConnectionsInPosition(Direction direction) {
         List<PuzzlePieceConnection> connections = new ArrayList<>();
 
-        for (int rIndex = puzzlePiecesList.size() - 1; rIndex >= 0; rIndex--) {
-            ArrayList<PuzzlePiece> row = puzzlePiecesList.get(rIndex);
-            for (int cIndex = 0; cIndex < row.size(); cIndex++) {
-                PuzzlePiece piece = row.get(cIndex);
+        for (int rowIndex = puzzlePiecesList.size() - 1; rowIndex >= 0; rowIndex--) {
+            ArrayList<PuzzlePiece> row = puzzlePiecesList.get(rowIndex);
+            for (int columnIndex = 0; columnIndex < row.size(); columnIndex++) {
+                PuzzlePiece piece = row.get(columnIndex);
 
                 if (piece == null) {
                     continue;
                 }
-                try {
-                    int otherRow = rIndex;
-                    int otherColumn = cIndex;
-
-                    switch (direction) {
-                        case LEFT:
-                            otherColumn -= 1;
-                            break;
-                        case RIGHT:
-                            otherColumn += 1;
-                            break;
-                        case TOP:
-                            otherRow -= 1;
-                            break;
-                        case BOTTOM:
-                            otherRow += 1;
-                            break;
-                    }
-                    if (puzzlePiecesList.get(otherRow).get(otherColumn) != null) {
-                        continue;
-                    }
-                } catch (IndexOutOfBoundsException ex) {
-                }
-
                 PuzzlePieceConnection newConnection = piece.getConnectorForDirection(direction);
                 if (newConnection != null) {
                     connections.add(newConnection);
@@ -228,7 +208,7 @@ public class PuzzlePieceGroup extends Observable {
         return connections;
     }
 
-    public int getMaxPuzzlePiecesInXDirection() {
+    public int getMaxPuzzlePiecesRow() {
         int maxNumber = 0;
 
         for (List<PuzzlePiece> row : puzzlePiecesList) {
@@ -239,7 +219,7 @@ public class PuzzlePieceGroup extends Observable {
         return maxNumber;
     }
 
-    public int getMaxPuzzlePiecesInYDirection() {
+    public int getMaxPuzzlePiecesColumn() {
         return puzzlePiecesList.size();
     }
 
@@ -272,6 +252,7 @@ public class PuzzlePieceGroup extends Observable {
 
         return -1;
     }
+
 
     public int getX() {
         return x;
@@ -323,28 +304,28 @@ public class PuzzlePieceGroup extends Observable {
         return contained;
     }
 
-    private PuzzlePiece addPuzzlePieceAtPosition(PuzzlePiece puzzlepiece, int x, int y) {
+    private PuzzlePiece addPuzzlePieceAtPosition(PuzzlePiece puzzlepiece, int y, int x) {
         ArrayList<PuzzlePiece> row;
 
         try {
-            row = puzzlePiecesList.get(x);
+            row = puzzlePiecesList.get(y);
         } catch (IndexOutOfBoundsException ex) {
-            for (int i = puzzlePiecesList.size(); i <= x; i++) {
+            for (int i = puzzlePiecesList.size(); i <= y; i++) {
                 row = new ArrayList<>();
                 puzzlePiecesList.add(row);
             }
-            row = puzzlePiecesList.get(x);
+            row = puzzlePiecesList.get(y);
         }
 
         try {
-            row.get(y);
+            row.get(x);
         } catch (IndexOutOfBoundsException ex) {
-            for (int i = row.size(); i <= y; i++) {
+            for (int i = row.size(); i <= x; i++) {
                 row.add(null);
             }
         }
 
         puzzlepiece.setPuzzlePieceGroup(this);
-        return row.set(y, puzzlepiece);
+        return row.set(x, puzzlepiece);
     }
 }

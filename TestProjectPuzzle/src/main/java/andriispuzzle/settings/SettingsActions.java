@@ -55,10 +55,6 @@ public class SettingsActions {
         puzzleareaSettings.setShowPuzzlePreview(showPuzzlePreview);
     }
 
-    public void setUsedSizeOfPuzzlearea(double number) {
-        puzzleareaSettings.setUsedSizeOfPuzzleArea(number);
-    }
-
     public Color getPuzzleAreaBackgroundColor() {
         return puzzleareaSettings.getPuzzleAreaBackgroundColor();
     }

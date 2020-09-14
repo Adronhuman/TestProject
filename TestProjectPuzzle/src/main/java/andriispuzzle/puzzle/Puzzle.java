@@ -2,7 +2,6 @@ package andriispuzzle.puzzle;
 
 import andriispuzzle.PuzzleApp;
 import andriispuzzle.settings.SettingsActions;
-import andriispuzzle.functions.ImageFunc;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -85,7 +84,7 @@ public class Puzzle {
             do {
                 newX = r.nextInt(screenBounds.width) + screenBounds.x;
                 newY = r.nextInt(screenBounds.height) + screenBounds.y;
-            } while (!screenArea.contains(newX, newY, pieceSize.getWidth() * group.getMaxPuzzlePiecesInXDirection(), pieceSize.height * group.getMaxPuzzlePiecesInYDirection()));
+            } while (!screenArea.contains(newX, newY, pieceSize.getWidth() * group.getMaxPuzzlePiecesRow(), pieceSize.height * group.getMaxPuzzlePiecesColumn()));
             group.setX(newX);
             group.setY(newY);
         }

@@ -105,7 +105,7 @@ public abstract class PuzzlepieceGroupView extends JPanel {
     }
 
     public int getHeightOfThisGroup() {
-        return getPuzzlePieceHeight() * piecegroup.getMaxPuzzlePiecesInYDirection() + 2 * getConnectionsSizeTopButtom();
+        return getPuzzlePieceHeight() * piecegroup.getMaxPuzzlePiecesColumn() + 2 * getConnectionsSizeTopButtom();
     }
 
     protected abstract Dimension getPuzzleAreaSize();
@@ -168,7 +168,7 @@ public abstract class PuzzlepieceGroupView extends JPanel {
     }
 
     public int getWidthOfThisGroup() {
-        return getPuzzlePieceWidth() * piecegroup.getMaxPuzzlePiecesInXDirection() + 2 * getConnectionsSizeLeftRight();
+        return getPuzzlePieceWidth() * piecegroup.getMaxPuzzlePiecesRow() + 2 * getConnectionsSizeLeftRight();
     }
 
     protected int getXStartPositionOfPuzzlepiece(PuzzlePiece piece) {
