@@ -9,7 +9,7 @@ import java.awt.*;
 public class PuzzlePreview extends JPanel {
 
 
-    private final int SIZE = 300;
+    private final int SIZE = 500;
 
     public PuzzlePreview() {
         this.setName("puzzle-preview");

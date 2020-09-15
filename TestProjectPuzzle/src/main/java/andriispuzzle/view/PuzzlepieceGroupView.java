@@ -157,13 +157,9 @@ public abstract class PuzzlepieceGroupView extends JPanel {
         if (xStart > getPuzzleAreaSize().width + puzzlepieceWidth || yStart > getPuzzleAreaSize().height + puzzlepieceHeight) {
             return;
         }
-        PuzzlePieceConnection connection;
-        Rectangle imgRect;
-        Area area;
 
-        imgRect = new Rectangle(xStart , yStart, puzzlepieceWidth, puzzlepieceHeight);
-        area = new Area(imgRect);
-
+        Rectangle imgRect = new Rectangle(xStart , yStart, puzzlepieceWidth, puzzlepieceHeight);;
+        Area area = new Area(imgRect);
         g2.setPaint(new TexturePaint(img, imgRect));
         g2.fill(area);
     }

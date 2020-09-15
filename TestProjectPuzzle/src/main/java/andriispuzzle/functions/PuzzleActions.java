@@ -27,7 +27,6 @@ public class PuzzleActions {
         return instance;
     }
 
-
     public void newPuzzle(Image img, String imageName) {
         BufferedImage image = ImageFunc.BufferedImageOf(img);
         int rowCount, columnCount;
