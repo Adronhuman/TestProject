@@ -21,9 +21,7 @@ public class PuzzleArea extends JLayeredPane {
         this.setOpaque(true);
         this.setName("puzzlearea");
         this.addPuzzlePreview();
-
         this.setBackground(SettingsActions.getInstance().getPuzzleAreaBackgroundColor());
-
     }
 
     public void bringToFront(PuzzlePieceView puzzlepieceView) {

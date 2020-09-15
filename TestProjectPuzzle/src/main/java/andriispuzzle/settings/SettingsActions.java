@@ -71,8 +71,6 @@ public class SettingsActions {
         puzzleSettings.setPuzzlePieceNumber(newNumber);
     }
 
-
-
     public void loadSettingsFromFile() throws IOException {
         File file = new File(SETTINGS_FILE_NAME);
 
@@ -111,8 +109,8 @@ public class SettingsActions {
 
     public Dimension getPuzzlePieceSize(double puzzleHeight, double puzzleWidth, int puzzleRows, int puzzleColumns) {
         int resizedWidth,resizedHeight;
-        resizedHeight = PuzzleApp.getInstance().getPuzzleWindow().getPuzzleAreaBounds().height;
-        resizedWidth = (int)(resizedHeight*(puzzleWidth / puzzleHeight));
+        resizedHeight = (int) (PuzzleApp.getInstance().getPuzzleWindow().getPuzzleAreaBounds().height);
+        resizedWidth = (int) (resizedHeight*(puzzleWidth / puzzleHeight));
         return new Dimension(resizedWidth / puzzleColumns, resizedHeight / puzzleRows);
     }
 

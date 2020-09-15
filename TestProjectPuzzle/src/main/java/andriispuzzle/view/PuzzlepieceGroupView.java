@@ -1,10 +1,10 @@
 package andriispuzzle.view;
 
-import andriispuzzle.puzzle.Shape;
 import andriispuzzle.puzzle.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
@@ -26,9 +26,7 @@ public abstract class PuzzlepieceGroupView extends JPanel {
                 this.updateViewSize();
             }
         });
-        EventQueue.invokeLater(() -> {
-            updateViewLocation();
-        });
+        updateViewLocation();
 
     }
 
@@ -54,11 +52,11 @@ public abstract class PuzzlepieceGroupView extends JPanel {
         for (PuzzlePiece puzzlepiece : piecegroup.getPuzzlePieces()) {
             int xStart = getXStartPositionOfPuzzlepiece(puzzlepiece);
             int yStart = getYStartPositionOfPuzzlepiece(puzzlepiece);
-            int pieceX = xStart - getConnectionsSizeLeftRight();
-            int pieceY = yStart - getConnectionsSizeTopButtom();
+            int pieceX = xStart;
+            int pieceY = yStart;
 
-            if (0 < pieceX && pieceX < getPuzzlePieceWidth() + 2 * getConnectionsSizeLeftRight()
-                    || 0 < pieceY || pieceY < getPuzzlePieceHeight() + 2 * getConnectionsSizeTopButtom()) {
+            if (0 < pieceX && pieceX < getPuzzlePieceWidth()
+                    || 0 < pieceY || pieceY < getPuzzlePieceHeight()) {
                 puzzlepieceHit = true;
                 break;
             }
@@ -72,11 +70,11 @@ public abstract class PuzzlepieceGroupView extends JPanel {
         for (PuzzlePiece puzzlepiece : piecegroup.getPuzzlePieces()) {
             int xStart = getXStartPositionOfPuzzlepiece(puzzlepiece);
             int yStart = getYStartPositionOfPuzzlepiece(puzzlepiece);
-            int pieceX = xStart - getConnectionsSizeLeftRight();
-            int pieceY = yStart - getConnectionsSizeTopButtom();
+            int pieceX = xStart ;
+            int pieceY = yStart ;
 
-            if (pieceX < x && x < pieceX + getPuzzlePieceWidth() + 2 * getConnectionsSizeLeftRight()
-                    && pieceY < y || y < pieceY + getPuzzlePieceHeight() + 2 * getConnectionsSizeTopButtom()) {
+            if (pieceX < x && x < pieceX + getPuzzlePieceWidth()
+                    && pieceY < y || y < pieceY + getPuzzlePieceHeight()) {
             } else {
                 continue;
             }
@@ -96,16 +94,8 @@ public abstract class PuzzlepieceGroupView extends JPanel {
         return puzzlepieceHit;
     }
 
-    protected int getConnectionsSizeLeftRight() {
-        return getPuzzlePieceWidth() / 2;
-    }
-
-    protected int getConnectionsSizeTopButtom() {
-        return getPuzzlePieceHeight() / 2;
-    }
-
     public int getHeightOfThisGroup() {
-        return getPuzzlePieceHeight() * piecegroup.getMaxPuzzlePiecesColumn() + 2 * getConnectionsSizeTopButtom();
+        return getPuzzlePieceHeight() * piecegroup.getMaxPuzzlePiecesColumn();
     }
 
     protected abstract Dimension getPuzzleAreaSize();
@@ -120,73 +110,24 @@ public abstract class PuzzlepieceGroupView extends JPanel {
 
     protected abstract int getPuzzlePieceWidth();
 
-    private GeneralPath getTransformedShapeOnConnector(Direction position, PuzzlePiece puzzlepiece) {
-        int shapeSize = 100;
-
-        GeneralPath gp = new GeneralPath(new Shape().constructShape());
-        AffineTransform af;
-
-        int xStart = piecegroup.getXPositionOfPieceInGroup(puzzlepiece) * getPuzzlePieceWidth();
-        int yStart = piecegroup.getYPositionOfPieceInGroup(puzzlepiece) * getPuzzlePieceHeight();
-
-        af = AffineTransform.getTranslateInstance(getConnectionsSizeLeftRight(), getConnectionsSizeTopButtom());
-
-        af.translate(xStart, yStart);
-
-        if (position.equals(Direction.RIGHT)) {
-            double x = getPuzzlePieceWidth() / 2.0;
-
-            af.translate(x, 0);
-            af.scale(-1, 1);
-            af.translate(-x, 0);
-        }
-
-        if (position.equals(Direction.TOP)
-                || position.equals(Direction.BOTTOM)) {
-            double x = 3 - (getPuzzlePieceWidth() + shapeSize / 2) / ((double) getPuzzlePieceHeight() + shapeSize / 2);
-            af.translate(getPuzzlePieceHeight() / x, getPuzzlePieceWidth() / x);
-            af.rotate(Math.PI / 2);
-            af.translate(-getPuzzlePieceWidth() / x, -getPuzzlePieceHeight() / x);
-        }
-
-        if (position.equals(Direction.BOTTOM)) {
-            double x = getPuzzlePieceHeight() / 2.0;
-
-            af.translate(x, 0);
-            af.scale(-1, 1);
-            af.translate(-x, 0);
-        }
-
-        if (puzzlepiece.isOutPieceInDirection(position)) {
-            af.scale(-1, 1);
-        }
-
-        af.scale(getPuzzlePieceWidth() / (double) shapeSize, getPuzzlePieceHeight() / (double) shapeSize);
-        gp.transform(af);
-
-        return gp;
-    }
-
     public int getWidthOfThisGroup() {
-        return getPuzzlePieceWidth() * piecegroup.getMaxPuzzlePiecesRow() + 2 * getConnectionsSizeLeftRight();
+        return getPuzzlePieceWidth() * piecegroup.getMaxPuzzlePiecesRow() ;
     }
 
     protected int getXStartPositionOfPuzzlepiece(PuzzlePiece piece) {
-        return getConnectionsSizeLeftRight() + piecegroup.getXPositionOfPieceInGroup(piece) * getPuzzlePieceWidth();
+        return piecegroup.getXPositionOfPieceInGroup(piece) * getPuzzlePieceWidth();
     }
 
     protected int getYStartPositionOfPuzzlepiece(PuzzlePiece piece) {
-        return getConnectionsSizeTopButtom() + piecegroup.getYPositionOfPieceInGroup(piece) * getPuzzlePieceHeight();
+        return piecegroup.getYPositionOfPieceInGroup(piece) * getPuzzlePieceHeight();
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-
-        g2.setStroke(new BasicStroke((float) 1.1));
         for (PuzzlePiece puzzlepiece : piecegroup.getPuzzlePieces()) {
             paintPiece(puzzlepiece, g2);
+            updateViewLocation();
         }
     }
 
@@ -194,11 +135,11 @@ public abstract class PuzzlepieceGroupView extends JPanel {
         setSize(getWidthOfThisGroup(), getHeightOfThisGroup());
     }
 
-    protected void updateViewLocation() {
+    void updateViewLocation() {
         int x = piecegroup.getX() - getPuzzleAreaStart().x;
         int y = piecegroup.getY() - getPuzzleAreaStart().y;
 
-        setLocation(x - getConnectionsSizeLeftRight(), y - getConnectionsSizeTopButtom());
+        setLocation(x, y);
     }
 
 
@@ -219,68 +160,9 @@ public abstract class PuzzlepieceGroupView extends JPanel {
         PuzzlePieceConnection connection;
         Rectangle imgRect;
         Area area;
-        GeneralPath gp;
 
-        imgRect = new Rectangle(xStart + getConnectionsSizeLeftRight(), yStart + getConnectionsSizeTopButtom(), puzzlepieceWidth, puzzlepieceHeight);
+        imgRect = new Rectangle(xStart , yStart, puzzlepieceWidth, puzzlepieceHeight);
         area = new Area(imgRect);
-        for (Direction position : Direction.values()) {
-            connection = puzzlepiece.getConnectorForDirection(position);
-            if (connection == null) {
-                continue;
-            }
-            if ((puzzlepiece.isInPieceInDirection(position) && piecegroup.isPuzzlePieceContained(connection.getOutPuzzlePiece()))
-                    || (puzzlepiece.isOutPieceInDirection(position) && piecegroup.isPuzzlePieceContained(connection.getInPuzzlePiece()))) {
-                continue;
-            }
-
-            gp = getTransformedShapeOnConnector(position, puzzlepiece);
-            if (puzzlepiece.isInPieceInDirection(position)) {
-                area.subtract(new Area(gp));
-            } else {
-                BufferedImage conImg = connection.getInPuzzlePiece().getImage();
-                java.awt.Shape oldClip = g2.getClip();
-                Area outConn = new Area(gp);
-
-                outConn.intersect(new Area(oldClip)); // don't draw outside the visible shape of this puzzlepiece
-                g2.setClip(outConn);
-                switch (position) {
-                    case LEFT:
-                        g2.drawImage(conImg,
-                                xStart - getConnectionsSizeLeftRight(), yStart + getConnectionsSizeTopButtom(),
-                                xStart + puzzlepieceWidth - getConnectionsSizeLeftRight(), yStart + puzzlepieceHeight + getConnectionsSizeTopButtom(),
-                                0, 0,
-                                conImg.getWidth(), conImg.getHeight(),
-                                null);
-                        break;
-                    case RIGHT:
-                        g2.drawImage(conImg,
-                                xStart + puzzlepieceWidth + getConnectionsSizeLeftRight(), yStart + getConnectionsSizeTopButtom(),
-                                xStart + 2 * puzzlepieceWidth + getConnectionsSizeLeftRight() + 1, yStart + puzzlepieceHeight + getConnectionsSizeTopButtom(),
-                                0, 0,
-                                conImg.getWidth(), conImg.getHeight(),
-                                null);
-                        break;
-                    case TOP:
-                        g2.drawImage(conImg,
-                                xStart + getConnectionsSizeLeftRight(), yStart - getConnectionsSizeTopButtom(),
-                                xStart + puzzlepieceWidth + getConnectionsSizeLeftRight(), yStart + puzzlepieceHeight - getConnectionsSizeTopButtom(),
-                                0, 0,
-                                conImg.getWidth(), conImg.getHeight(),
-                                null);
-                        break;
-                    case BOTTOM:
-                        g2.drawImage(conImg,
-                                xStart + getConnectionsSizeLeftRight(), yStart + puzzlepieceHeight + getConnectionsSizeTopButtom(),
-                                xStart + puzzlepieceWidth + getConnectionsSizeLeftRight(), yStart + 2 * puzzlepieceHeight + getConnectionsSizeTopButtom() + 1,
-                                0, 0,
-                                conImg.getWidth(), conImg.getHeight(),
-                                null);
-                        break;
-                }
-
-                g2.setClip(oldClip);
-            }
-        }
 
         g2.setPaint(new TexturePaint(img, imgRect));
         g2.fill(area);

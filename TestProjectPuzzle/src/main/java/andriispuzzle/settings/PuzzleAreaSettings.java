@@ -14,6 +14,9 @@ public class PuzzleAreaSettings extends Observable{
 
     private boolean showPuzzlePreview = false;
 
+    private double usedSizeOfPuzzleare = 0.5;
+
+
     public PuzzleAreaSettings() {
     }
 
@@ -25,6 +28,14 @@ public class PuzzleAreaSettings extends Observable{
         puzzleAreaBackgroundColor = newColor;
         setChanged();
         notifyObservers();
+    }
+
+    public double getUsedSizeOfPuzzleare() {
+        return usedSizeOfPuzzleare;
+    }
+
+    public void setUsedSizeOfPuzzleare(double usedSizeOfPuzzleare) {
+        this.usedSizeOfPuzzleare = usedSizeOfPuzzleare;
     }
 
     public boolean getShowPuzzlePreview() {
