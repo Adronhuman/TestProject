@@ -1,19 +1,15 @@
 package andriispuzzle.settings;
-
 import andriispuzzle.PuzzleApp;
 import andriispuzzle.functions.PuzzleActions;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-
 
 public class SettingsActions {
 
@@ -28,11 +24,7 @@ public class SettingsActions {
     private SettingsActions() {
         puzzleSettings = new PuzzleSettings();
         puzzleareaSettings = new PuzzleAreaSettings();
-        try {
-            loadSettingsFromFile();
-        } catch (IOException ex) {
-            System.out.println(ex.getLocalizedMessage());
-        }
+        loadSettingsFromFile();
     }
 
     public static SettingsActions getInstance() {
@@ -71,12 +63,11 @@ public class SettingsActions {
         puzzleSettings.setPuzzlePieceNumber(newNumber);
     }
 
-    public void loadSettingsFromFile() throws IOException {
+    public void loadSettingsFromFile() {
         File file = new File(SETTINGS_FILE_NAME);
 
         try {
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
-            doc.getDocumentElement().normalize();
 
             Node settingsNode = doc.getElementsByTagName("settings").item(0);
             if (settingsNode != null) {

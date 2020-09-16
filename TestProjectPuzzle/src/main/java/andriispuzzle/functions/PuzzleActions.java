@@ -141,8 +141,8 @@ public class PuzzleActions {
         int pieceWidth = SettingsActions.getInstance().getPuzzlePieceSize().width;
         int pieceHeight = SettingsActions.getInstance().getPuzzlePieceSize().height;
 
-        int possibleGroupOffsetX = pieceWidth * SettingsActions.getInstance().getPuzzlePieceSnapDistancePercent() / 100;
-        int possibleGroupOffsetY = pieceHeight * SettingsActions.getInstance().getPuzzlePieceSnapDistancePercent() / 100;
+        int possibleMistakeX = pieceWidth * SettingsActions.getInstance().getPuzzlePieceSnapDistancePercent() / 100;
+        int possibleMistakeY = pieceHeight * SettingsActions.getInstance().getPuzzlePieceSnapDistancePercent() / 100;
 
         PuzzlePieceGroup PuzzlePieceGroup = piece1.getPuzzlePieceGroup();
         PuzzlePieceGroup otherGroup = otherPiece.getPuzzlePieceGroup();
@@ -172,15 +172,11 @@ public class PuzzleActions {
                 break;
         }
 
-        boolean isNear = false;
-
-        if (xOtherPiece - possibleGroupOffsetX < xOtherPieceExpected
-                && xOtherPieceExpected < xOtherPiece + possibleGroupOffsetX
-                && yOtherPiece - possibleGroupOffsetY < yOtherPieceExpected
-                && yOtherPieceExpected < yOtherPiece + possibleGroupOffsetY) {
-            isNear = true;
+        if (Math.abs(xOtherPiece-xOtherPieceExpected) < possibleMistakeX
+            && Math.abs(yOtherPiece-yOtherPieceExpected) < possibleMistakeY) {
+            return true;
         }
-        return isNear;
+        return false;
     }
 
     public Puzzle getPuzzle() {
