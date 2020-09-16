@@ -141,20 +141,12 @@ public class SettingsWindow extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {
-            SettingsActions.getInstance().loadSettingsFromFile();
-
-            this.dispose();
-        } catch (IOException ex) {
-            System.out.println(ex.getLocalizedMessage());
-        }
+        SettingsActions.getInstance().loadSettingsFromFile();
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        try {
-            SettingsActions.getInstance().loadSettingsFromFile();
-        } catch (IOException ex) {
-        }
+        SettingsActions.getInstance().loadSettingsFromFile();
     }//GEN-LAST:event_formWindowClosed
     // End of variables declaration//GEN-END:variables
 }

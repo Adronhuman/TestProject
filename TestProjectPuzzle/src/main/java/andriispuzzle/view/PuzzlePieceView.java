@@ -8,8 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.util.Objects;
 
-
-public class PuzzlePieceView extends PuzzlepieceGroupView {
+public class PuzzlePieceView extends PuzzlePieceGroupView {
 
     private final PuzzleArea puzzlearea;
 

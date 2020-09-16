@@ -72,6 +72,7 @@ public class PuzzleActions {
     }
 
     public void ConnectPuzzlePieceGroup(PuzzlePieceGroup PuzzlePieceGroup) {
+
         for (PuzzlePieceGroup otherGroup : puzzle.getPuzzlePieceGroups()) {
             if (!otherGroup.equals(PuzzlePieceGroup)) {
                 PuzzlePieceConnection connection = null;
@@ -100,30 +101,30 @@ public class PuzzleActions {
                     continue;
                 }
 
-                PuzzlePiece piece1;
-                PuzzlePiece otherPuzzlePiece;
+                PuzzlePiece piece;
+                PuzzlePiece otherPiece;
 
                 if (PuzzlePieceGroup.isPuzzlePieceContained(connection.getInPuzzlePiece())) {
-                    piece1 = connection.getInPuzzlePiece();
+                    piece = connection.getInPuzzlePiece();
                 } else {
-                    piece1 = connection.getOutPuzzlePiece();
+                    piece = connection.getOutPuzzlePiece();
                 }
                 if (otherGroup.isPuzzlePieceContained(connection.getInPuzzlePiece())) {
-                    otherPuzzlePiece = connection.getInPuzzlePiece();
+                    otherPiece = connection.getInPuzzlePiece();
                 } else {
-                    otherPuzzlePiece = connection.getOutPuzzlePiece();
+                    otherPiece = connection.getOutPuzzlePiece();
                 }
 
                 Direction direction = null;
 
                 for (Direction positionToTest : Direction.values()) {
-                    if (connection == piece1.getConnectorForDirection(positionToTest)) {
+                    if (connection == piece.getConnectorForDirection(positionToTest)) {
                         direction = positionToTest;
                         break;
                     }
                 }
 
-                if (!isPuzzlePieceNearOtherPieceInDirection(piece1, otherPuzzlePiece, direction)) {
+                if (!isPuzzlePieceNearOtherPieceInDirection(piece, otherPiece, direction)) {
                     continue;
                 }
 

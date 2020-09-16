@@ -4,21 +4,18 @@ import andriispuzzle.puzzle.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
 
-public abstract class PuzzlepieceGroupView extends JPanel {
+public abstract class PuzzlePieceGroupView extends JPanel {
 
     private final PuzzlePieceGroup piecegroup;
 
-    public PuzzlepieceGroupView(PuzzlePieceGroup piecegroup) {
+    public PuzzlePieceGroupView(PuzzlePieceGroup piecegroup) {
         this.piecegroup = piecegroup;
 
-        this.setOpaque(false);
+//        this.setOpaque(false);
 
         piecegroup.addObserver((Observable o, Object arg) -> {
             if (piecegroup.isInPuzzle()) {
@@ -47,31 +44,11 @@ public abstract class PuzzlepieceGroupView extends JPanel {
             return false;
         }
 
-        boolean puzzlepieceHit = false;
+        boolean puzzlePieceHit = false;
 
         for (PuzzlePiece puzzlepiece : piecegroup.getPuzzlePieces()) {
-            int xStart = getXStartPositionOfPuzzlepiece(puzzlepiece);
-            int yStart = getYStartPositionOfPuzzlepiece(puzzlepiece);
-            int pieceX = xStart;
-            int pieceY = yStart;
-
-            if (0 < pieceX && pieceX < getPuzzlePieceWidth()
-                    || 0 < pieceY || pieceY < getPuzzlePieceHeight()) {
-                puzzlepieceHit = true;
-                break;
-            }
-        }
-        if (!puzzlepieceHit) {
-            return false;
-        }
-
-        puzzlepieceHit = false;
-
-        for (PuzzlePiece puzzlepiece : piecegroup.getPuzzlePieces()) {
-            int xStart = getXStartPositionOfPuzzlepiece(puzzlepiece);
-            int yStart = getYStartPositionOfPuzzlepiece(puzzlepiece);
-            int pieceX = xStart ;
-            int pieceY = yStart ;
+            int pieceX = getXStartPositionOfPuzzlepiece(puzzlepiece) ;
+            int pieceY =getYStartPositionOfPuzzlepiece(puzzlepiece);
 
             if (pieceX < x && x < pieceX + getPuzzlePieceWidth()
                     && pieceY < y || y < pieceY + getPuzzlePieceHeight()) {
@@ -86,12 +63,12 @@ public abstract class PuzzlepieceGroupView extends JPanel {
             Area area = new Area(imgRect);
 
             if (area.contains(x, y)) {
-                puzzlepieceHit = true;
+                puzzlePieceHit = true;
                 break;
             }
         }
 
-        return puzzlepieceHit;
+        return puzzlePieceHit;
     }
 
     public int getHeightOfThisGroup() {

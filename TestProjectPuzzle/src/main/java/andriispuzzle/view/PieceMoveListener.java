@@ -18,6 +18,7 @@ class PieceMoveListener extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        System.out.println("mouse pressed");
         if (e.getButton() == MouseEvent.BUTTON1) {
             puzzlepieceView.moveToFront();
             initX = e.getX();
