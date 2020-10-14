@@ -10,15 +10,9 @@ public class PuzzlePieceConnection {
 
     private int id;
 
-    public PuzzlePieceConnection(PuzzlePiece[] pieces) {
-        Random rn = new Random();
-        int inPieceIndex;
-        int outPieceIndex;
-
-        inPieceIndex = rn.nextInt(2);
-        outPieceIndex = inPieceIndex == 0 ? 1 : 0;
-        this.inPuzzlePiece = pieces[inPieceIndex];
-        this.outPuzzlePiece = pieces[outPieceIndex];
+    public PuzzlePieceConnection(PuzzlePiece thisPiece,PuzzlePiece other) {
+        this.inPuzzlePiece = thisPiece;
+        this.outPuzzlePiece = other;
     }
 
 

@@ -4,7 +4,6 @@ import andriispuzzle.view.PuzzleWindow;
 
 public class PuzzleApp {
 
-
     private static PuzzleApp instance;
 
     public static PuzzleApp getInstance() {
@@ -13,6 +12,7 @@ public class PuzzleApp {
         }
         return instance;
     }
+
     private PuzzleWindow puzzleWindow;
 
     public static void main(String[] args) {

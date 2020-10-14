@@ -26,7 +26,7 @@ public class Puzzle {
         puzzlePieces = new PuzzlePiece[rowCount][columnCount];
 
         puzzlePieceConnections = new HashMap<>();
-        puzzlePiecesGroups = new ArrayList<>(rowCount * columnCount);
+        puzzlePiecesGroups = new ArrayList<>();
         for (int x = 0; x < rowCount; x++) {
             for (int y = 0; y < columnCount; y++) {
                 BufferedImage img = new BufferedImage(image.getWidth() / columnCount, image.getHeight() / rowCount, image.getType());
@@ -43,19 +43,19 @@ public class Puzzle {
 
                 newPiece = new PuzzlePiece(img);
                 puzzlePieces[x][y] = newPiece;
-                puzzlePiecesGroups.add(x * columnCount + y, new PuzzlePieceGroup(this, newPiece, pieceWidth * y, pieceHeight * x));
+                puzzlePiecesGroups.add(new PuzzlePieceGroup(this, newPiece, pieceWidth * y, pieceHeight * x));
 
-                PuzzlePieceConnection newConnection;
+                PuzzlePieceConnection Connection;
 
                 if (x > 0) {
                     puzzlePieces[x][y].createConnectorToPiece(puzzlePieces[x - 1][y], Direction.TOP);
-                    newConnection = puzzlePieces[x][y].getConnectorForDirection(Direction.TOP);
-                    puzzlePieceConnections.put(newConnection.getId(), newConnection);
+                    Connection = puzzlePieces[x][y].getConnectorForDirection(Direction.TOP);
+                    puzzlePieceConnections.put(Connection.getId(), Connection);
                 }
                 if (y > 0) {
                     puzzlePieces[x][y].createConnectorToPiece(puzzlePieces[x][y - 1], Direction.LEFT);
-                    newConnection = puzzlePieces[x][y].getConnectorForDirection(Direction.LEFT);
-                    puzzlePieceConnections.put(newConnection.getId(), newConnection);
+                    Connection = puzzlePieces[x][y].getConnectorForDirection(Direction.LEFT);
+                    puzzlePieceConnections.put(Connection.getId(), Connection);
                 }
             }
         }
@@ -82,8 +82,8 @@ public class Puzzle {
             PuzzlePieceGroup group = puzzlePiecesGroups.get(i);
             int newX, newY;
             do {
-                newX = r.nextInt(screenBounds.width) + screenBounds.x;
-                newY = r.nextInt(screenBounds.height) + screenBounds.y;
+                newX = r.nextInt(screenBounds.width) ;
+                newY = r.nextInt(screenBounds.height);
             } while (!screenArea.contains(newX, newY, pieceSize.getWidth() * group.getMaxPuzzlePiecesRow(), pieceSize.height * group.getMaxPuzzlePiecesColumn()));
             group.setX(newX);
             group.setY(newY);

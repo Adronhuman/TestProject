@@ -1,4 +1,4 @@
-package andriispuzzle;
+package andriispuzzle.Algo;
 
 import andriispuzzle.puzzle.Direction;
 
@@ -9,26 +9,29 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import static java.lang.Math.*;
 
-public class SolveFromFile {
-    private final static int delta = 1000000;
 
-    public static BufferedImage solve(String filePath,int rowCount,int columnCount){
-       File directory = new File(filePath);
-       File[] files = directory.listFiles();
-       String imageType = files[0].getName().split("\\.")[1];
+public class SolveFromFile implements Solver {
+    private final static int delta = 10;
 
-       List<BufferedImage> imageList = new ArrayList<>();
+    public BufferedImage solve(String filePath,int rowCount,int columnCount){
+        long time = System.nanoTime();
+        File directory = new File(filePath);
+        File[] files = directory.listFiles();
+
+        List<BufferedImage> imageList = new ArrayList<>();
 
         try {
-           for (File file : files) {
-               BufferedImage image = ImageIO.read(file);
-               imageList.add(image);
-           }
-       }catch (IOException exception){
-           System.out.println(exception.getLocalizedMessage());
-       }
+            for (File file : files) {
+                BufferedImage image = ImageIO.read(file);
+                imageList.add(image);
+            }
+        }catch (IOException exception){
+            System.out.println(exception.getLocalizedMessage());
+        }
         int N = imageList.size();
+        List<List<BufferedImage>> bestFrameMirror= new ArrayList<>();
         BufferedImage bestImage = imageList.get(0);
         int bestLevel = 0;
         int imageWidth = imageList.get(0).getWidth();
@@ -70,8 +73,8 @@ public class SolveFromFile {
                 frameMirror.add(new ArrayList<>());
                 for (int j=0;j<localImageList.size();j++){
                     int count = countOfSimilarPixelsInDirection(localImageList.get(j),
-                                                    frameMirror.get(r-1).get(0),
-                                                    Direction.TOP);
+                            frameMirror.get(r-1).get(0),
+                            Direction.TOP);
                     if (count>maxCount){
                         maxCount = count;
                         maxIndex = j;
@@ -79,8 +82,8 @@ public class SolveFromFile {
                 }
                 level+=maxCount;
                 buf = localImageList.remove(maxIndex);
-                frameMirror.get(r).add(buf);
                 field.drawImage(buf,0,r*imageHeight,null);
+                frameMirror.get(r).add(buf);
 
                 for (int i = 0;i<columnCount-1;i++){
                     maxCount = 0;
@@ -88,8 +91,8 @@ public class SolveFromFile {
                     for(int j=0;j<localImageList.size();j++){
                         int count = countOfSimilarPixelsInDirection(buf,localImageList.get(j),Direction.RIGHT);
                         count += countOfSimilarPixelsInDirection(localImageList.get(j),frameMirror.get(r-1).get(i+1),Direction.TOP);
-                        if (count > maxCount){
-                            maxCount = count;
+                        if (count/2 > maxCount){
+                            maxCount = count/2;
                             maxIndex = j;
                         }
                     }
@@ -105,7 +108,7 @@ public class SolveFromFile {
                 bestImage = frame;
             }
         }
-        System.out.println("puzzle solved!!!");
+        System.out.println("puzzle solved!!! " + (System.nanoTime()-time)/1000000000);
         return bestImage;
     }
 
@@ -114,33 +117,42 @@ public class SolveFromFile {
         switch (direction){
             case LEFT:
                 for(int y =0;y<thisImage.getHeight();y++){
-                    if(Math.abs(thisImage.getRGB(0, y)-otherImage.getRGB(otherImage.getWidth()-1, y))<delta){
+                    if (diff(thisImage.getRGB(0, y),otherImage.getRGB(otherImage.getWidth()-1, y))<delta){
                         count++;
                     }
+
                 }
                 break;
             case RIGHT:
                 for(int y=0;y<thisImage.getHeight();y++){
-                    if(Math.abs(otherImage.getRGB(0,y)-thisImage.getRGB(thisImage.getWidth()-1,y))<delta){
+                    if(diff(otherImage.getRGB(0,y),thisImage.getRGB(thisImage.getWidth()-1,y))<delta){
                         count++;
                     }
                 }
                 break;
             case TOP:
                 for(int x=0;x<thisImage.getWidth();x++){
-                    if(Math.abs(thisImage.getRGB(x,0)-otherImage.getRGB(x,otherImage.getHeight()-1))<delta){
+                    if(diff(thisImage.getRGB(x,0),otherImage.getRGB(x,otherImage.getHeight()-1))<delta){
                         count++;
                     }
                 }
                 break;
             case BOTTOM:
                 for(int x=0;x<thisImage.getWidth();x++){
-                    if(Math.abs(otherImage.getRGB(x,0)-thisImage.getRGB(x,otherImage.getHeight()-1))<delta){
+                    if(diff(otherImage.getRGB(x,0),thisImage.getRGB(x,otherImage.getHeight()-1))<delta){
                         count++;
                     }
                 }
                 break;
         }
         return count;
+    }
+
+    public static double diff(int rgb1,int rgb2){
+        Color color1 = new Color(rgb1);
+        Color color2 = new Color(rgb2);
+        int red1 = color1.getRed(),green1 = color1.getGreen(),blue1 = color1.getBlue();
+        int red2 = color2.getRed(),green2 = color2.getGreen(),blue2 = color2.getBlue();
+        return sqrt(pow(red1-red2,2)+pow(green1-green2,2)+pow(blue1-blue2,2));
     }
 }

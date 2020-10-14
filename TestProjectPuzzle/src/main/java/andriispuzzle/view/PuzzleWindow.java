@@ -45,6 +45,7 @@ public class PuzzleWindow {
     public JFrame getPuzzleMainWindow(){
         return this.mainWindow;
     }
+
     public void gameEnd(){
         mainWindow.gameEnd();
     }

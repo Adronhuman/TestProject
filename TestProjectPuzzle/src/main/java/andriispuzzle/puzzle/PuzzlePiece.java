@@ -1,7 +1,5 @@
 package andriispuzzle.puzzle;
 
-import andriispuzzle.functions.ImageFunc;
-
 import java.awt.image.BufferedImage;
 
 public class PuzzlePiece {
@@ -23,7 +21,7 @@ public class PuzzlePiece {
             return false;
         }
 
-        PuzzlePieceConnection connection = new PuzzlePieceConnection(new PuzzlePiece[]{this, otherPiece});
+        PuzzlePieceConnection connection = new PuzzlePieceConnection(this, otherPiece);
 
         this.connectors[position.intValue()] = connection;
         otherPiece.connectors[position.getOpposite().intValue()] = connection;
@@ -39,19 +37,6 @@ public class PuzzlePiece {
         return image;
     }
 
-    public boolean isInPieceInDirection(Direction direction) {
-        if (connectors[direction.intValue()] == null) {
-            return false;
-        }
-        return connectors[direction.intValue()].getInPuzzlePiece() == this;
-    }
-
-    public boolean isOutPieceInDirection(Direction direction) {
-        if (connectors[direction.intValue()] == null) {
-            return false;
-        }
-        return connectors[direction.intValue()].getOutPuzzlePiece() == this;
-    }
 
     public PuzzlePieceGroup getPuzzlePieceGroup() {
         return group;

@@ -1,7 +1,10 @@
 package andriispuzzle.functions;
 
+import andriispuzzle.Algo.SolveFromFile;
+import andriispuzzle.Algo.Solver;
 import andriispuzzle.CreatePuzzleFile;
 import andriispuzzle.PuzzleApp;
+import andriispuzzle.Algo.SolveFromFileRecursive;
 import andriispuzzle.puzzle.*;
 import andriispuzzle.settings.SettingsActions;
 
@@ -15,6 +18,7 @@ import java.util.List;
 public class PuzzleActions {
 
     private static PuzzleActions instance;
+
     private Puzzle puzzle;
 
     private PuzzleActions() {
@@ -56,6 +60,16 @@ public class PuzzleActions {
 
     public void newPuzzle(File imageFile) throws IOException {
         newPuzzle(ImageIO.read(imageFile), imageFile.getName());
+    }
+
+    public void solve(){
+        Puzzle puzzle = this.getPuzzle();
+        Solver solver = new SolveFromFileRecursive();
+        try {
+            ImageIO.write(solver.solve("puzzleRepo", puzzle.getRowCount(), puzzle.getColumnCount()), puzzle.getImageType(), new File("final\\kit." + puzzle.getImageType()));
+        } catch (Exception ec) {
+            System.out.println(ec.getLocalizedMessage());
+        }
     }
 
     public void restartPuzzle() {

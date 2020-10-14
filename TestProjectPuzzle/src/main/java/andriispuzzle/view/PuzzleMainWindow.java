@@ -2,7 +2,6 @@ package andriispuzzle.view;
 
 import andriispuzzle.CreatePuzzleFile;
 import andriispuzzle.PuzzleApp;
-import andriispuzzle.SolveFromFile;
 import andriispuzzle.functions.PuzzleActions;
 import andriispuzzle.puzzle.Puzzle;
 import andriispuzzle.puzzle.PuzzlePieceGroup;
@@ -166,12 +165,7 @@ public class PuzzleMainWindow extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(ActionEvent event) {
         new Thread(() -> {
-            Puzzle puzzle = PuzzleActions.getInstance().getPuzzle();
-            try {
-                ImageIO.write(SolveFromFile.solve("puzzleRepo", puzzle.getRowCount(), puzzle.getColumnCount()), puzzle.getImageType(), new File("final\\kit." + puzzle.getImageType()));
-            } catch (Exception ec) {
-                System.out.println(ec.getLocalizedMessage());
-            }
+            PuzzleActions.getInstance().solve();
         }).start();
     }
 
@@ -213,6 +207,6 @@ public class PuzzleMainWindow extends javax.swing.JFrame {
             PuzzleActions.getInstance().restartPuzzle();
         }).start();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
-    // End of variables declaration//GEN-END:variables
+
 
 }

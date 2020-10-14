@@ -19,7 +19,6 @@ public class PuzzleArea extends JLayeredPane {
     public PuzzleArea() {
         this.setLayout(null);
         this.setOpaque(true);
-        this.setName("puzzlearea");
         this.addPuzzlePreview();
         this.setBackground(SettingsActions.getInstance().getPuzzleAreaBackgroundColor());
     }
@@ -95,7 +94,6 @@ public class PuzzleArea extends JLayeredPane {
                 group = pieceGroups.get(listIndex);
                 newView = new PuzzlePieceView(this, group);
 
-                newView.setName("puzzlepiece-group-" + x + "-" + y); // name is needed for tests
                 pieceGroupsViews.set(listIndex, newView);
 
             }

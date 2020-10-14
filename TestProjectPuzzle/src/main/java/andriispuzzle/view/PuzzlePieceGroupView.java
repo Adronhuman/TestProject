@@ -10,12 +10,10 @@ import java.util.Observable;
 
 public abstract class PuzzlePieceGroupView extends JPanel {
 
-    private final PuzzlePieceGroup piecegroup;
+    private final PuzzlePieceGroup pieceGroup;
 
     public PuzzlePieceGroupView(PuzzlePieceGroup piecegroup) {
-        this.piecegroup = piecegroup;
-
-//        this.setOpaque(false);
+        this.pieceGroup = piecegroup;
 
         piecegroup.addObserver((Observable o, Object arg) -> {
             if (piecegroup.isInPuzzle()) {
@@ -28,7 +26,7 @@ public abstract class PuzzlePieceGroupView extends JPanel {
     }
 
     public boolean belongsToPuzzlePieceGroup(PuzzlePieceGroup group) {
-        return this.piecegroup == group;
+        return this.pieceGroup == group;
     }
 
     @Override
@@ -46,7 +44,7 @@ public abstract class PuzzlePieceGroupView extends JPanel {
 
         boolean puzzlePieceHit = false;
 
-        for (PuzzlePiece puzzlepiece : piecegroup.getPuzzlePieces()) {
+        for (PuzzlePiece puzzlepiece : pieceGroup.getPuzzlePieces()) {
             int pieceX = getXStartPositionOfPuzzlepiece(puzzlepiece) ;
             int pieceY =getYStartPositionOfPuzzlepiece(puzzlepiece);
 
@@ -72,7 +70,7 @@ public abstract class PuzzlePieceGroupView extends JPanel {
     }
 
     public int getHeightOfThisGroup() {
-        return getPuzzlePieceHeight() * piecegroup.getMaxPuzzlePiecesColumn();
+        return getPuzzlePieceHeight() * pieceGroup.getMaxPuzzlePiecesColumn();
     }
 
     protected abstract Dimension getPuzzleAreaSize();
@@ -80,7 +78,7 @@ public abstract class PuzzlePieceGroupView extends JPanel {
     protected abstract Point getPuzzleAreaStart();
 
     protected PuzzlePieceGroup getPuzzlePieceGroup() {
-        return piecegroup;
+        return pieceGroup;
     }
 
     protected abstract int getPuzzlePieceHeight();
@@ -88,21 +86,21 @@ public abstract class PuzzlePieceGroupView extends JPanel {
     protected abstract int getPuzzlePieceWidth();
 
     public int getWidthOfThisGroup() {
-        return getPuzzlePieceWidth() * piecegroup.getMaxPuzzlePiecesRow() ;
+        return getPuzzlePieceWidth() * pieceGroup.getMaxPuzzlePiecesRow() ;
     }
 
     protected int getXStartPositionOfPuzzlepiece(PuzzlePiece piece) {
-        return piecegroup.getXPositionOfPieceInGroup(piece) * getPuzzlePieceWidth();
+        return pieceGroup.getXPositionOfPieceInGroup(piece) * getPuzzlePieceWidth();
     }
 
     protected int getYStartPositionOfPuzzlepiece(PuzzlePiece piece) {
-        return piecegroup.getYPositionOfPieceInGroup(piece) * getPuzzlePieceHeight();
+        return pieceGroup.getYPositionOfPieceInGroup(piece) * getPuzzlePieceHeight();
     }
 
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        for (PuzzlePiece puzzlepiece : piecegroup.getPuzzlePieces()) {
+        for (PuzzlePiece puzzlepiece : pieceGroup.getPuzzlePieces()) {
             paintPiece(puzzlepiece, g2);
             updateViewLocation();
         }
@@ -113,8 +111,8 @@ public abstract class PuzzlePieceGroupView extends JPanel {
     }
 
     void updateViewLocation() {
-        int x = piecegroup.getX() - getPuzzleAreaStart().x;
-        int y = piecegroup.getY() - getPuzzleAreaStart().y;
+        int x = pieceGroup.getX() - getPuzzleAreaStart().x;
+        int y = pieceGroup.getY() - getPuzzleAreaStart().y;
 
         setLocation(x, y);
     }
@@ -125,8 +123,8 @@ public abstract class PuzzlePieceGroupView extends JPanel {
         int puzzlepieceWidth = getPuzzlePieceWidth();
         int puzzlepieceHeight = getPuzzlePieceHeight();
 
-        int xStart = piecegroup.getXPositionOfPieceInGroup(puzzlepiece) * puzzlepieceWidth;
-        int yStart = piecegroup.getYPositionOfPieceInGroup(puzzlepiece) * puzzlepieceHeight;
+        int xStart = pieceGroup.getXPositionOfPieceInGroup(puzzlepiece) * puzzlepieceWidth;
+        int yStart = pieceGroup.getYPositionOfPieceInGroup(puzzlepiece) * puzzlepieceHeight;
 
         if (xStart < -puzzlepieceWidth || yStart < -puzzlepieceHeight) {
             return;
