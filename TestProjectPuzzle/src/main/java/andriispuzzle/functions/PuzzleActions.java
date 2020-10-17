@@ -64,7 +64,7 @@ public class PuzzleActions {
 
     public void solve(){
         Puzzle puzzle = this.getPuzzle();
-        Solver solver = new SolveFromFileRecursive();
+        Solver solver = new SolveFromFile();
         try {
             ImageIO.write(solver.solve("puzzleRepo", puzzle.getRowCount(), puzzle.getColumnCount()), puzzle.getImageType(), new File("final\\kit." + puzzle.getImageType()));
         } catch (Exception ec) {

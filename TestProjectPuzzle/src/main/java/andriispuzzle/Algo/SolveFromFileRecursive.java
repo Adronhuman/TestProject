@@ -100,7 +100,7 @@ public class SolveFromFileRecursive  implements Solver {
                     best.add(i);
                     max= v;
                 }
-                else if (v==max && best.size()<1){
+                else if (v==max && best.size()<2){
                     best.add(i);
                 }
             }
